@@ -832,7 +832,11 @@ class Library:
         compound: Compound
 
         for mol in suppl:
-            self.compounds_list.append(Compound(rdkitmol=mol, autofetch=False))
+            try:
+                self.compounds_list.append(Compound(rdkitmol=mol, autofetch=False))
+            except ValueError:
+                print("ERROR: rdkit could not parse the current molecule. Skipping.")
+                continue
 
         for compound in self.compounds_list:
             compound._linked_libraries.append(self)
